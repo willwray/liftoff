@@ -1,0 +1,3 @@
+[submodule "subprojects/lo_libs"]
+	path = subprojects/lo_libs
+	url = https://github.com/willwray/lo_libs

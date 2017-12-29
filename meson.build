@@ -1,18 +1,20 @@
 project('liftoff', 'cpp',
-  default_options : 'cpp_std=c++11',
-  subproject_dir : 'lo_libs')
+  default_options : 'cpp_std=c++11')
 
-subprojects = ['lo_test', 'lo_adder', 'lo_strings']
+lo_libs = subproject('lo_libs')
 
-string_dep = subproject('lo_strings').get_variable('lo_strings_dep')
-adder_dep = subproject('lo_adder').get_variable('lo_adder_dep')
-test_dep = subproject('lo_test').get_variable('lo_test_dep')
+#subprojects = lo_libs.get_variable('subprojects')
+
+foreach s : subprojects
+    dep = s + '_dep'
+    set_variable(dep, subproject(s).get_variable(dep))
+endforeach
 
 shuttlelib = static_library('lo_shuttle', 'lo_shuttle.cpp',
-  dependencies : [string_dep, adder_dep])
+  dependencies : [lo_strings_dep, lo_adder_dep])
 
 test('shuttle countdown', executable('countdown', 'shuttletest.cpp', link_with : shuttlelib,
-    dependencies : [test_dep]))
+    dependencies : [lo_test_dep]))
 
 executable('shuttle_launcher', 'main.cpp',
   link_with : shuttlelib)
