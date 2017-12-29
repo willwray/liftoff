@@ -1,9 +1,9 @@
 project('liftoff', 'cpp',
   default_options : 'cpp_std=c++11')
 
-lo_libs = subproject('lo_libs')
+lo_libs_sp = subproject('lo_libs')
 
-#subprojects = lo_libs.get_variable('subprojects')
+subprojects = lo_libs_sp.get_variable('subprojects')
 
 foreach s : subprojects
     dep = s + '_dep'
